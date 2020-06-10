@@ -1,24 +1,9 @@
 #include <iostream>
-#include<stdio.h>
-#include<fstream>
-#include<string>
-#include<vector>
+#include<cstdio>
+
 #include <bits/stdc++.h>
-#include <bits/stl_vector.h>
-#include <ctime>
-#include <iostream>
-#include <list>
-#include <iterator>
-#include <vector>
-#include <stack>
-#include <iostream>
-#include <list>
-#include <iterator>
-#include <vector>
-#include <stack>
-#include <queue>
-#include <cstring>
-#include <iostream>
+
+
 using namespace std;
 int n;
 struct point
@@ -34,9 +19,9 @@ struct queueNode
 
 struct flight
 {
-	int city;
-	int cost;
-	int time;
+    int city;
+    int cost;
+    int time;
 };
 
 struct CompareCost {
@@ -107,7 +92,7 @@ int partOne(std::queue<int> &Q, std::vector<std::vector<int> > &G, int sV, int k
 
 void PartOne(){
 
-	    int N, M;               //N Denotes No of Vertices    M Denotes No of Edges
+    int N, M;               //N Denotes No of Vertices    M Denotes No of Edges
     int sV, kthLevel;
     std::queue<int> Q;
 
@@ -147,115 +132,115 @@ bool check(int x, int y, int n)
 bool PartTwoAlg(vector<vector<int> >& maze, int n, point start, point dest, vector<vector<int> >& solvedMaze)
 {
 
-	queue<queueNode> path;
-	if(maze[start.x][start.y] == 1 || maze[dest.x][dest.y] == 1)
-	{
+    queue<queueNode> path;
+    if(maze[start.x][start.y] == 1 || maze[dest.x][dest.y] == 1)
+    {
 
-		return false;
-	}
-	bool visited[n][n];
+        return false;
+    }
+    bool visited[n][n];
     memset(visited, false, sizeof visited);
-	visited[start.x][start.y] = true;
-	queue<queueNode> q;
-	queueNode s;
-	s.pt = start;
-	q.push(s);
-	queueNode solve;
+    visited[start.x][start.y] = true;
+    queue<queueNode> q;
+    queueNode s;
+    s.pt = start;
+    q.push(s);
+    queueNode solve;
 
-	while(!q.empty())
-	{
-		queueNode current = q.front();
-		point pt = current.pt;
+    while(!q.empty())
+    {
+        queueNode current = q.front();
+        point pt = current.pt;
 
-		if(pt.x == dest.x && pt.y == dest.y)
-		{
+        if(pt.x == dest.x && pt.y == dest.y)
+        {
 
-			printf(" (%d,%d) " ,pt.x,pt.y);
-			return true;
-		}
-		else
-		{
-			path.push(q.front());
-			q.pop();
+            printf(" (%d,%d) " ,pt.x,pt.y);
+            return true;
+        }
+        else
+        {
+            path.push(q.front());
+            q.pop();
 
-			for(int i = 0; i < 4; i++)
-			{
-				int row = pt.x + neighborRow[i];
-            	int col = pt.y + neighborCol[i];
-            	if(check(row, col, n) == true && maze[row][col] == 0 && visited[row][col] == false )
-				{
-					solvedMaze[row][col] = 0;
-					visited[row][col] = true;
-					queueNode neighbor;
-					neighbor.pt.x = row;
-					neighbor.pt.y = col;
-                	q.push(neighbor);
-                	while(!path.empty())
-					{
-						solve = path.front();
-                		printf(" (%d,%d) " ,solve.pt.x,solve.pt.y);
-						path.pop();
+            for(int i = 0; i < 4; i++)
+            {
+                int row = pt.x + neighborRow[i];
+                int col = pt.y + neighborCol[i];
+                if(check(row, col, n) == true && maze[row][col] == 0 && visited[row][col] == false )
+                {
+                    solvedMaze[row][col] = 0;
+                    visited[row][col] = true;
+                    queueNode neighbor;
+                    neighbor.pt.x = row;
+                    neighbor.pt.y = col;
+                    q.push(neighbor);
+                    while(!path.empty())
+                    {
+                        solve = path.front();
+                        printf(" (%d,%d) " ,solve.pt.x,solve.pt.y);
+                        path.pop();
 
-					}
+                    }
 
 
-				}
-			}
+                }
+            }
 
-		}
+        }
 
-	}
+    }
 
-	return false;
+    return false;
 }
 
 
 void PartTwo(){
 
-int i,j;
-printf("Please enter the maze dimensions: \n");
-scanf("%d",&n);
-vector<vector<int> > maze(n, vector<int>(n));
-printf("Please enter the Values in the maze (0 for a free space you can navigate in and 1 for a block)");
-for(i = 0; i < n; i++)
-{
-	for(j = 0; j < n; j++)
-	{
-		printf("The Maze[%d][%d] = ",i,j);
-		scanf("%d",&maze[i][j]);
-	}
-}
-vector<vector<int> > solvedMaze(n, vector<int>(n,1));
+    int i,j;
+    printf("Please enter the maze dimensions: \n");
+    scanf("%d",&n);
+    vector<vector<int> > maze(n, vector<int>(n));
+    printf("Please enter the Values in the maze (0 for a free space you can navigate in and 1 for a block)");
+    for(i = 0; i < n; i++)
+    {
+        for(j = 0; j < n; j++)
+        {
+            printf("The Maze[%d][%d] = ",i,j);
+            scanf("%d",&maze[i][j]);
+        }
+    }
+    vector<vector<int> > solvedMaze(n, vector<int>(n,1));
 
 
-point start;
-point dest;
-start.x = 0;
-start.y = 0;
-dest.x = n-1;
-dest.y = n-1;
+    point start;
+    point dest;
+    start.x = 0;
+    start.y = 0;
+    dest.x = n-1;
+    dest.y = n-1;
 
-bool path = PartTwoAlg(maze, n, start, dest, solvedMaze);
-if(path == false){
-	printf("No path found \n");
-}
-else{
-	printf("Path found\n");
+    bool path = PartTwoAlg(maze, n, start, dest, solvedMaze);
+    if(path == false){
+        printf("No path found \n");
+    }
+    else{
+        printf("Path found\n");
 
-}
+    }
 
 
 }
 
 void PartThreeAlg(list<flight> adj_list[], int s, int d, int M, int N){
 
-	bool visited[N+1];
-	int weight[N+1];
-	int pathparent[N+1];
-	int time[N+1];
-	pathparent[s]=s;
-	priority_queue <flight, vector<flight>, CompareCost> pq;
-	for(int i=1; i<N+1;i++)
+    bool visited[N+1];
+    int weight[N+1];
+    int pathparent[N+1];
+    int time[N+1];
+    pathparent[s]=s;
+    priority_queue <flight, vector<flight>, CompareCost> pq;
+    for(int i=1; i<N+1;i++)
     {
         flight ff;
         ff.cost = INT_MAX;
@@ -394,22 +379,22 @@ void PartThree()
 
 int main()
 {
- char g='y';
- int part;
- while(g =='y')
-{
-
-    printf("please choose 1 for part 1, 2 for part 2 , 3 for part 3 \n");
-    scanf("%d",&part);
-    switch(part)
+    char g='y';
+    int part;
+    while(g =='y')
     {
-        case 1: PartOne();break;
-        case 2: PartTwo();break;
-        case 3: PartThree();break;
+
+        printf("please choose 1 for part 1, 2 for part 2 , 3 for part 3 \n");
+        scanf("%d",&part);
+        switch(part)
+        {
+            case 1: PartOne();break;
+            case 2: PartTwo();break;
+            case 3: PartThree();break;
+        }
+        cout <<"please enter y if you want to repeat and anything else if you want to exit \n";
+        cin >> g ;
     }
-    cout <<"please enter y if you want to repeat and anything else if you want to exit \n";
-    cin >> g ;
-}
 
     return 0;
 }
